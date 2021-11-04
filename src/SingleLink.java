@@ -199,7 +199,6 @@ public class SingleLink implements ActionListener
 	 }
 	 if(e.getSource()==deleteanywhere) {
 		 int position=Integer.parseInt(field6.getText());
-		 System.out.println(position);
 		 deleteanywhere(position);
 	 }
 	 if(e.getSource()==insertlast) {
@@ -221,7 +220,6 @@ public class SingleLink implements ActionListener
 		 int value=Integer.parseInt(field9.getText());
 		
 		 int validate= findposition(value);
-		 System.out.println(validate);
 		 if(validate==-2) {
 			 textfield.setText("the list is empty");
 		 }
@@ -233,6 +231,20 @@ public class SingleLink implements ActionListener
 		 {
 			 textfield.setText("the position of the value is : " +validate);
 		 }
+	 }
+	 if(e.getSource()==listreverse) {
+		 listreverse();
+	 }
+	 if(e.getSource()==findmiddle) {
+		int validate= middle();
+		if(validate==-1) {
+			textfield.setText("no elements in the list");
+		}
+		else
+		{
+			textfield.setText("the middle element is :"+validate);
+		}
+		
 	 }
 	 if(e.getSource()==display) {
 		 display();
@@ -334,19 +346,22 @@ public class SingleLink implements ActionListener
  }
  public listnode deleteanywhere(int position) {
 	 listnode current=head;
+	
 	 if(position==1) {
 		 current=current.next;
 		 head=current;
 		 return head;
 	 }
 	 else
-	 {
+	 {   
+		 listnode nextn=null;
 		 int count=1;
 		 while(count<position-1) {
 			 current=current.next;
 			 count++;
 		 }
-		 current=current.next.next;
+		 nextn=current.next.next;
+		 current.next=nextn;
 		 return head;
 	 }
  }
@@ -404,6 +419,41 @@ public class SingleLink implements ActionListener
 	 }
 	 
 	
+ }
+ public listnode listreverse() {
+	 listnode current=head;
+	 listnode nextn=null;
+	 listnode prev=null;
+	 if(head==null) {
+		 return head;
+	 }
+	 else
+	 {
+	   while(current!=null) {
+		  nextn=current.next;
+		  current.next=prev;
+		  prev=current;
+		  current=nextn;
+		  }
+	   return head=prev;
+	 }
+ }
+ public int middle() {
+	 if(head==null) {
+		 return -1;
+	 }
+	 else
+	 {
+		 listnode start=head;
+		 listnode end=head;
+		 while(end!=null&&end.next!=null) {
+			 start=start.next;
+			 end=end.next.next;
+		 }
+	 
+	  
+		 return start.data;
+	 }
  }
   
   public listnode display() {
